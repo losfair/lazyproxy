@@ -70,8 +70,8 @@ jobs:
         run: |
           cd dist
           mkdir packages
-          cp ./dist/linux-static/lazyproxy ./packages/lazyproxy.linux-static
-          cp ./dist/macos/lazyproxy ./packages/lazyproxy.macos
+          cp ./linux-static/lazyproxy ./packages/lazyproxy.linux-static
+          cp ./macos/lazyproxy ./packages/lazyproxy.macos
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
