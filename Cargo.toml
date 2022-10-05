@@ -2,6 +2,10 @@
 name = "lazyproxy"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/losfair/lazyproxy"
+description = "A TCP proxy that is so lazy that shuts down itself after a period of inactivity."
+authors = ["Heyang Zhou <heyang.zhou@icloud.com>"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
