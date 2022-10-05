@@ -107,7 +107,7 @@ async fn proxy(mut client: TcpStream, target: SocketAddr, refresh_tx: &Sender<()
         .with_context(|| "connect failed")?;
 
     let refresh_fut = poll_fn(refresh_poll(refresh_tx));
-    let copy_fut = Box::pin(tokio::io::copy_bidirectional(&mut client, &mut conn));
+    let copy_fut = tokio::io::copy_bidirectional(&mut client, &mut conn);
 
     tokio::select! {
         biased;
