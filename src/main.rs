@@ -2,7 +2,7 @@ use std::{
     future::poll_fn,
     net::SocketAddr,
     task::{Context as TaskContext, Poll},
-    time::Duration,
+    time::{Duration, Instant},
 };
 
 use anyhow::{Context, Result};
@@ -55,8 +55,13 @@ async fn main() -> Result<()> {
         .context("target address resolved to nothing")?;
     let timeout = Duration::from_secs(opt.timeout_secs);
 
+    let listener = TcpListener::bind(&listen)
+        .await
+        .with_context(|| "failed to bind")?;
+
     if opt.wait {
         tracing::info!("waiting for target to become available");
+        let start = Instant::now();
 
         loop {
             match TcpStream::connect(&target).await {
@@ -66,11 +71,9 @@ async fn main() -> Result<()> {
                 }
             }
         }
-    }
 
-    let listener = TcpListener::bind(&listen)
-        .await
-        .with_context(|| "failed to bind")?;
+        tracing::info!("target is available after {:?}", start.elapsed())
+    }
 
     let (refresh_tx, mut refresh_rx) = tokio::sync::mpsc::channel::<()>(1);
 
